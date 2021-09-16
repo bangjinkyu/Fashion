@@ -5,6 +5,6 @@ import com.room.fashion.model.response.FashionResponse
 import retrofit2.Call
 
 interface DataModel {
-    fun getData(): Call<FashionResponse>
-    fun getGoodData(query: Int): Single<FashionResponse>
+    suspend fun getData(): FashionResponse
+    suspend fun getGoodData(query: Int): FashionResponse
 }

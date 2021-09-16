@@ -8,10 +8,17 @@
         <entry key="..\:/project/fashion/app/src/main/res/layout/fragment_movie_favorite_list.xml" value="0.10104166666666667" />
         <entry key="..\:/project/fashion/app/src/main/res/layout/fragment_movie_list.xml" value="0.25" />
         <entry key="..\:/project/fashion/app/src/main/res/layout/item_fashion_adapter.xml" value="0.21927083333333333" />
+        <entry key="app/src/main/res/drawable/white_rectangle_left_radius.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_fashion.xml" value="0.1234375" />
+        <entry key="app/src/main/res/layout/fragment_favorite.xml" value="0.1234375" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1234375" />
+        <entry key="app/src/main/res/layout/item_fashion_adapter.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_layout_banner.xml" value="0.1234375" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

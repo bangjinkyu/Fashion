@@ -8,13 +8,13 @@ import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseActivity <T : ViewDataBinding, R : BaseViewModel> : AppCompatActivity() {
 
-    lateinit var viewDataBinding: T
+    lateinit var binding: T
 
     /**
      * setContentView로 호출할 Layout의 리소스 Id.
      * ex) R.layout.activity_sbs_main
      */
-    abstract val layoutResourceId: Int
+    abstract val layoutId: Int
 
     /**
      * viewModel 로 쓰일 변수.
@@ -50,14 +50,15 @@ abstract class BaseActivity <T : ViewDataBinding, R : BaseViewModel> : AppCompat
         super.onCreate(savedInstanceState)
 
         // 초기화된 layoutResId로 databinding 객체 생성
-        viewDataBinding = DataBindingUtil.setContentView(this, layoutResourceId)
+        binding = DataBindingUtil.setContentView(this, layoutId)
         // live data를 사용하기 위해 해줘야함
-        viewDataBinding.lifecycleOwner = this@BaseActivity
+        binding.lifecycleOwner = this@BaseActivity
 
         snackbarObserving()
         initStartView()
         initDataBinding()
         initAfterBinding()
+        initNavigationBar()
     }
 
     private fun snackbarObserving() {

@@ -1,10 +1,11 @@
 package com.room.fashion.di
 
-import com.room.fashion.FashionListAdapter
 import com.room.fashion.model.DataModel
 import com.room.fashion.model.DataModelImpl
 import com.room.fashion.model.service.FashionService
 import com.room.fashion.viewmodel.MainViewModel
+import kr.lazynight.android.adapter.FashionListAdapter
+import kr.lazynight.android.adapter.ViewPagerAdapter
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -14,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 var retrofitPart = module {
     single<FashionService> {
         Retrofit.Builder()
-            .baseUrl("https://dapi.kakao.com")
+            .baseUrl("http://d2bab9i9pr8lds.cloudfront.net/")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -25,6 +26,10 @@ var retrofitPart = module {
 var adapterPart = module {
     factory {
         FashionListAdapter()
+    }
+
+    single {
+        ViewPagerAdapter()
     }
 }
 
