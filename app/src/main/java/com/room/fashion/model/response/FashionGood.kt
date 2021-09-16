@@ -1,4 +1,4 @@
-package com.room.fashion
+package com.room.fashion.model.response
 
 import com.google.gson.annotations.SerializedName
 
