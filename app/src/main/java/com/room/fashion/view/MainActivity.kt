@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.room.fashion.Base.BaseActivity
-import com.room.fashion.FashionListViewAdapter
+import com.room.fashion.FashionListAdapter
 import com.room.fashion.R
 import com.room.fashion.databinding.ActivityMainBinding
 import com.room.fashion.viewmodel.MainViewModel
@@ -19,14 +19,14 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override val viewModel: MainViewModel by viewModel()
 
-    private val fashionListViewAdapter: FashionListViewAdapter by inject()
+    private val fashionListAdapter: FashionListAdapter by inject()
 
     //private val fragmentOne by lazy { MovieListFragment() }
 
 
     override fun initStartView() {
         viewDataBinding.mainActivitySearchRecyclerView.run {
-            adapter = fashionListViewAdapter
+            adapter = fashionListAdapter
             layoutManager = StaggeredGridLayoutManager(3, 1).apply {
                 gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
                 orientation = StaggeredGridLayoutManager.VERTICAL
@@ -38,9 +38,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     override fun initDataBinding() {
         viewModel.fashionResponseLiveData.observe(this, Observer {
             it.goods.forEach { good ->
-                fashionListViewAdapter.addImageItem(good.image)
+                fashionListAdapter.addImageItem(good.image)
             }
-            fashionListViewAdapter.notifyDataSetChanged()
+            fashionListAdapter.notifyDataSetChanged()
         })
     }
 

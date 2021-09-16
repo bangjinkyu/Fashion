@@ -12,7 +12,7 @@ class FashionApplication : Application() {
         startKoin{
             androidLogger()
             androidContext(this@FashionApplication )
-            modules(myDiModule)
+            koin.loadModules(myDiModule)
         }
     }
 }

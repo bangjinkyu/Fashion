@@ -1,6 +1,6 @@
 package com.room.fashion.di
 
-import com.room.fashion.FashionListViewAdapter
+import com.room.fashion.FashionListAdapter
 import com.room.fashion.model.DataModel
 import com.room.fashion.model.DataModelImpl
 import com.room.fashion.model.service.FashionService
@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 var retrofitPart = module {
     single<FashionService> {
         Retrofit.Builder()
-            .baseUrl("http://d2bab9i9pr8lds.cloudfront.net/")
+            .baseUrl("https://dapi.kakao.com")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -24,7 +24,7 @@ var retrofitPart = module {
 
 var adapterPart = module {
     factory {
-        FashionListViewAdapter()
+        FashionListAdapter()
     }
 }
 

@@ -11,7 +11,7 @@ object FashionRepository {
             .build()
     }
 
-    val api : FashionApi by lazy {
-        retrofit.create(FashionApi::class.java)
+    val api : KakaoSearchService by lazy {
+        retrofit.create(KakaoSearchService::class.java)
     }
 }

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.room.fashion.databinding.ItemFashionAdapterBinding
 
-class FashionListViewAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FashionListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     data class ImageItem(var imageUrl:String)
 
