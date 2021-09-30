@@ -1,16 +1,15 @@
-package com.room.fashion.view
+package com.room.fashion
 
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.room.fashion.Base.BaseActivity
-import com.room.fashion.R
+import com.room.fashion.base.BaseActivity
 import com.room.fashion.databinding.ActivityMainBinding
-import com.room.fashion.viewmodel.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
-    override val layoutId: Int get() = R.layout.activity_main
+    override val layoutId: Int
+    get() = R.layout.activity_main
 
     override val viewModel: MainViewModel by viewModel()
 
@@ -31,5 +30,4 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
         binding.bottomNavi.setupWithNavController(navController)
     }
-
 }

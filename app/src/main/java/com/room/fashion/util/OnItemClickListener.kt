@@ -1,8 +1,8 @@
-package com.room.fashion.view
+package com.room.fashion.util
 
 import android.view.View
-import com.room.fashion.model.response.FashionResponse
-import kr.lazynight.android.adapter.FashionListAdapter
+import com.room.fashion.adapter.FashionListAdapter
+import com.room.fashion.model.FashionResponse
 
 interface OnItemClickListener{
     fun onBannerItemClicked (bannerItem: FashionResponse.FashionBanner)

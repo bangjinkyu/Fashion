@@ -1,4 +1,4 @@
-package com.room.fashion.Base
+package com.room.fashion.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

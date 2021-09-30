@@ -1,11 +1,11 @@
-package com.room.fashion.viewmodel
+package com.room.fashion.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.room.fashion.Base.BaseViewModel
+import com.room.fashion.base.BaseViewModel
 import com.room.fashion.model.DataModel
-import com.room.fashion.model.response.FashionResponse
+import com.room.fashion.model.FashionResponse
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

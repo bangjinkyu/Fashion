@@ -3,16 +3,14 @@ package com.room.fashion.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.room.fashion.R
 import com.room.fashion.databinding.ItemFashionAdapterBinding
 import com.room.fashion.extensions.formatComma
 import com.room.fashion.extensions.formatPercent
-import com.room.fashion.model.response.FashionResponse
-import com.room.fashion.view.OnItemClickListener
-import java.text.DecimalFormat
+import com.room.fashion.model.FashionResponse
+import com.room.fashion.util.OnItemClickListener
 
 class FashionListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

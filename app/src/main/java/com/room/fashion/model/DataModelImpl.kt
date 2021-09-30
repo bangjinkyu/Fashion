@@ -1,9 +1,8 @@
 package com.room.fashion.model
 
-import com.room.fashion.model.response.FashionResponse
-import com.room.fashion.model.service.FashionService
+import com.room.fashion.network.FashionService
 
-class  DataModelImpl(private val service:FashionService): DataModel {
+class  DataModelImpl(private val service: FashionService): DataModel {
 
     override suspend fun getData(): FashionResponse {
         return service.getFashion()

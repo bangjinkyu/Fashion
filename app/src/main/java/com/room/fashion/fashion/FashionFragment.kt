@@ -1,9 +1,8 @@
-package com.room.fashion.view
+package com.room.fashion.fashion
 
-import com.room.fashion.Base.BaseFragment
+import com.room.fashion.base.BaseFragment
 import com.room.fashion.R
 import com.room.fashion.databinding.FragmentFashionBinding
-import com.room.fashion.viewmodel.FashionViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FashionFragment: BaseFragment<FragmentFashionBinding, FashionViewModel>() {
@@ -17,13 +16,7 @@ class FashionFragment: BaseFragment<FragmentFashionBinding, FashionViewModel>() 
 
     }
 
-    override fun initViewPager2() {
-    }
-
     override fun initDataBinding() {
-    }
-
-    override fun autoScrollViewPager() {
     }
 
     override fun subscribeObservers() {

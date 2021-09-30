@@ -1,6 +1,6 @@
-package com.room.fashion.viewmodel
+package com.room.fashion.fashion
 
-import com.room.fashion.Base.BaseViewModel
+import com.room.fashion.base.BaseViewModel
 
 class FashionViewModel : BaseViewModel() {
     private val TAG = "FavoriteViewModel"

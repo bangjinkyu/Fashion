@@ -1,20 +1,20 @@
-package com.room.fashion.view
+package com.room.fashion.home
 
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
-import com.room.fashion.Base.BaseFragment
+import com.room.fashion.base.BaseFragment
 import com.room.fashion.R
+import com.room.fashion.adapter.FashionListAdapter
+import com.room.fashion.adapter.ViewPagerAdapter
 import com.room.fashion.databinding.FragmentHomeBinding
-import com.room.fashion.model.response.FashionResponse
-import com.room.fashion.viewmodel.HomeViewModel
-import com.room.fashion.viewmodel.MainViewModel
+import com.room.fashion.model.FashionResponse
+import com.room.fashion.util.OnItemClickListener
+import com.room.fashion.MainViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
-import kr.lazynight.android.adapter.FashionListAdapter
-import kr.lazynight.android.adapter.ViewPagerAdapter
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -23,7 +23,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     private  val viewPagerAdapter: ViewPagerAdapter by inject()
 
-    private val fashionRecyclerViewAdapter: FashionListAdapter by inject()
+    private val fashionListViewAdapter: FashionListAdapter by inject()
 
     override val viewModel: HomeViewModel by viewModel()
 
@@ -34,14 +34,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     override fun initStartView() {
         binding.homeSearchRecycler.run {
-            adapter = fashionRecyclerViewAdapter
+            adapter = fashionListViewAdapter
             layoutManager = GridLayoutManager(context, 2)
             setHasFixedSize(true)
         }
 
-    }
-
-    override fun initViewPager2() {
         binding.viewPager2.apply {
             adapter = viewPagerAdapter
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -55,34 +52,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     }
 
     override fun initDataBinding() {
-
+        viewModel.getBannerItems()
+        viewModel.getFashionSearch()
     }
 
-
     override fun subscribeObservers() {
-        viewModel.fashionGoodLiveData.observe(viewLifecycleOwner, Observer {
-            fashionRecyclerViewAdapter.submitList(it)
+        viewModel.fashionGoodLiveData.observe(viewLifecycleOwner, {
+            fashionListViewAdapter.submitList(it)
             mainViewModel.setLiveData(it)
         })
 
-        viewModel.bannerItemList.observe(viewLifecycleOwner, Observer {
+        viewModel.bannerItemList.observe(viewLifecycleOwner, {
             viewPagerAdapter.submitList(it)
         })
-        viewModel.currentPosition.observe(viewLifecycleOwner, Observer {
+        viewModel.currentPosition.observe(viewLifecycleOwner, {
             binding.viewPager2.currentItem = it
         })
     }
 
     override fun initAfterBinding() {
-        viewModel.getBannerItems()
-        viewModel.getFashionSearch()
-
-        binding.mainActivitySearchButton.setOnClickListener {
-          // To do
-        }
-
-        fashionRecyclerViewAdapter.setOnItemClickListener(
-            object : OnItemClickListener{
+        fashionListViewAdapter.setOnItemClickListener(
+            object : OnItemClickListener {
                 override fun onBannerItemClicked(bannerItem: FashionResponse.FashionBanner) {
                     TODO("Not yet implemented")
                 }
@@ -91,21 +81,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                     view: View,
                     position: Int
                 ) {
-                    mainViewModel.getLiveData()?.get(position)?.let {
-                        if (!it.isFavorite)  {
-                            it.isFavorite =  true
-                            view.background = context?.getDrawable(R.drawable.favorite_selected)
-                        } else {
-                            it.isFavorite =  false
-                            view.background = context?.getDrawable(R.drawable.favorite_normal)
+                    mainViewModel.getShareLiveData.observe(viewLifecycleOwner, {
+                        it.get(position).let {
+                            if (!it.isFavorite) {
+                                it.isFavorite = true
+                                view.background = context?.getDrawable(R.drawable.favorite_selected)
+                            } else {
+                                it.isFavorite = false
+                                view.background = context?.getDrawable(R.drawable.favorite_normal)
+                            }
                         }
-                    }
+                    })
                 }
             }
         )
-    }
 
-    override fun autoScrollViewPager() {
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             while (viewLifecycleOwner.lifecycleScope.isActive) {
                 delay(2000)
@@ -115,9 +105,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
             }
         }
     }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
 }

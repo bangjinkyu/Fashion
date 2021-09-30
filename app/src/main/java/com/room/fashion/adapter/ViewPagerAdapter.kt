@@ -1,4 +1,4 @@
-package kr.lazynight.android.adapter
+package com.room.fashion.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.room.fashion.R
 import com.room.fashion.databinding.ItemLayoutBannerBinding
-import com.room.fashion.model.response.FashionResponse
+import com.room.fashion.model.FashionResponse
 
 class ViewPagerAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

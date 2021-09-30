@@ -1,11 +1,13 @@
 package com.room.fashion.di
 
+import com.room.fashion.adapter.FashionListAdapter
+import com.room.fashion.adapter.ViewPagerAdapter
 import com.room.fashion.model.DataModel
 import com.room.fashion.model.DataModelImpl
-import com.room.fashion.model.service.FashionService
-import com.room.fashion.viewmodel.MainViewModel
-import kr.lazynight.android.adapter.FashionListAdapter
-import kr.lazynight.android.adapter.ViewPagerAdapter
+import com.room.fashion.network.FashionService
+import com.room.fashion.home.HomeViewModel
+import com.room.fashion.favorite.FavoriteViewModel
+import com.room.fashion.MainViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -24,7 +26,7 @@ var retrofitPart = module {
 }
 
 var adapterPart = module {
-    factory {
+    single {
         FashionListAdapter()
     }
 
@@ -40,9 +42,9 @@ var modelPart = module {
 }
 
 var viewModelPart = module {
-    viewModel {
-        MainViewModel(get())
-    }
+    viewModel { MainViewModel() }
+    viewModel { HomeViewModel(get()) }
+    viewModel { FavoriteViewModel() }
 }
 
 var myDiModule = listOf(retrofitPart, adapterPart, modelPart, viewModelPart)

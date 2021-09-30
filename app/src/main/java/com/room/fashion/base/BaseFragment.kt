@@ -1,4 +1,4 @@
-package com.room.fashion.Base
+package com.room.fashion.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,13 +20,9 @@ abstract class BaseFragment <B : ViewDataBinding, V : ViewModel>  : Fragment() {
 
     abstract fun initStartView()
 
-    abstract fun initViewPager2()
-
     abstract fun initDataBinding()
 
     abstract fun initAfterBinding()
-
-    abstract fun autoScrollViewPager()
 
     abstract fun subscribeObservers()
 
@@ -44,11 +40,8 @@ abstract class BaseFragment <B : ViewDataBinding, V : ViewModel>  : Fragment() {
         binding.lifecycleOwner = this@BaseFragment
 
         initStartView()
-        initViewPager2()
         initDataBinding()
         initAfterBinding()
-        //initGridRecyclerView()
-        autoScrollViewPager()
         subscribeObservers()
     }
 

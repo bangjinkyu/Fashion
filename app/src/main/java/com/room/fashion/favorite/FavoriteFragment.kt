@@ -1,16 +1,15 @@
-package com.room.fashion.view
+package com.room.fashion.favorite
 
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.room.fashion.Base.BaseFragment
+import com.room.fashion.MainViewModel
+import com.room.fashion.base.BaseFragment
 import com.room.fashion.R
+import com.room.fashion.adapter.FashionListAdapter
 import com.room.fashion.databinding.FragmentFavoriteBinding
-import com.room.fashion.model.response.FashionResponse
-import com.room.fashion.viewmodel.FavoriteViewModel
-import com.room.fashion.viewmodel.MainViewModel
-import kr.lazynight.android.adapter.FashionListAdapter
+import com.room.fashion.model.FashionResponse
+import com.room.fashion.util.OnItemClickListener
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -34,9 +33,6 @@ class FavoriteFragment() : BaseFragment<FragmentFavoriteBinding, FavoriteViewMod
         }
     }
 
-    override fun initViewPager2() {
-    }
-
     override fun subscribeObservers() {
         viewModel.fashionGoodLiveData.observe(this, Observer {
             fashionRecyclerViewAdapter.submitList(it)
@@ -44,22 +40,13 @@ class FavoriteFragment() : BaseFragment<FragmentFavoriteBinding, FavoriteViewMod
     }
 
     override fun initDataBinding() {
-        mainViewModel.getLiveData()?.forEach {
-            Log.d("room", "init fdfd $it")
-        }
-
-        val chartData = mainViewModel.getLiveData()?.filter { it.isFavorite }
-
+        val chartData = mainViewModel.getShareLiveData.value?.filter { it.isFavorite }
         viewModel.getFashionFavorite(chartData!!)
-    }
-
-
-    override fun autoScrollViewPager() {
     }
 
     override fun initAfterBinding() {
         fashionRecyclerViewAdapter.setOnItemClickListener(
-            object : OnItemClickListener{
+            object : OnItemClickListener {
                 override fun onItemClick(
                     holder: FashionListAdapter.ImageHolder,
                     view: View,

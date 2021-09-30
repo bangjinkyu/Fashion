@@ -1,4 +1,4 @@
-package com.room.fashion.model.response
+package com.room.fashion.model
 
 import com.google.gson.annotations.SerializedName
 
@@ -10,7 +10,7 @@ data class FashionResponse(
 ){
     data class FashionBanner(
         @SerializedName("id") val id: Int,
-        @SerializedName("image") val image: Int
+        @SerializedName("image") val image: String
     )
     data class FashionGood(
         @SerializedName("id") val id: Int, //상품 ID

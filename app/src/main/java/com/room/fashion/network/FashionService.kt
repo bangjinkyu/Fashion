@@ -1,8 +1,6 @@
-package com.room.fashion.model.service
+package com.room.fashion.network
 
-import io.reactivex.Single
-import com.room.fashion.model.response.FashionResponse
-import retrofit2.Call
+import com.room.fashion.model.FashionResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
