@@ -1,7 +1,6 @@
 package com.room.fashion.home
 
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -19,11 +18,12 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     private  val viewPagerAdapter: ViewPagerAdapter by inject()
 
-    private val fashionListViewAdapter: FashionListAdapter by inject()
+    private val fashionListAdapter: FashionListAdapter by inject()
 
     override val viewModel: HomeViewModel by viewModel()
 
@@ -32,9 +32,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     override val layoutId: Int
         get() = R.layout.fragment_home
 
+
     override fun initStartView() {
-        binding.homeSearchRecycler.run {
-            adapter = fashionListViewAdapter
+        binding.homeSearchRecycler.apply {
+            adapter = fashionListAdapter
             layoutManager = GridLayoutManager(context, 2)
             setHasFixedSize(true)
         }
@@ -56,22 +57,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         viewModel.getFashionSearch()
     }
 
+
     override fun subscribeObservers() {
         viewModel.fashionGoodLiveData.observe(viewLifecycleOwner, {
-            fashionListViewAdapter.submitList(it)
+            fashionListAdapter.submitList(it)
             mainViewModel.setLiveData(it)
         })
 
-        viewModel.bannerItemList.observe(viewLifecycleOwner, {
+        viewModel.bannerItemList.observe(viewLifecycleOwner,  {
             viewPagerAdapter.submitList(it)
         })
-        viewModel.currentPosition.observe(viewLifecycleOwner, {
+        viewModel.currentPosition.observe(viewLifecycleOwner,  {
             binding.viewPager2.currentItem = it
         })
     }
 
     override fun initAfterBinding() {
-        fashionListViewAdapter.setOnItemClickListener(
+        fashionListAdapter.setOnItemClickListener(
             object : OnItemClickListener {
                 override fun onBannerItemClicked(bannerItem: FashionResponse.FashionBanner) {
                     TODO("Not yet implemented")

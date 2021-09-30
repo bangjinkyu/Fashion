@@ -6,10 +6,10 @@ import retrofit2.http.Query
 
 interface FashionService {
     @GET("/api/home")
-    fun getFashion(): FashionResponse
+    suspend fun getFashion(): FashionResponse
 
     @GET("/api/home/good")
-    fun getFashionGood(
+    suspend fun getFashionGood(
         @Query("lastId") lastId: Int
     ) : FashionResponse
 }

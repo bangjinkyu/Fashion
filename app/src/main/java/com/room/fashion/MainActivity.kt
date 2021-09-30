@@ -8,10 +8,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
+    override val viewModel: MainViewModel by viewModel()
+
     override val layoutId: Int
     get() = R.layout.activity_main
-
-    override val viewModel: MainViewModel by viewModel()
 
     override fun initStartView() {
 

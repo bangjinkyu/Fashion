@@ -69,5 +69,4 @@ abstract class BaseActivity <T : ViewDataBinding, R : BaseViewModel> : AppCompat
             Snackbar.make(findViewById(android.R.id.content), it, Snackbar.LENGTH_LONG).show()
         }
     }
-
 }

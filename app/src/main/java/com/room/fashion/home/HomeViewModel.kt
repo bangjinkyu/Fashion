@@ -50,19 +50,13 @@ class HomeViewModel(private val model: DataModel) : BaseViewModel() {
                 _fashionGoodLiveData.value = model.getData().goods
             }
         }
+    }
 
-
-//        addDisposable(model.getGoodData(query)  //rxjava
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe({
-//                it.run {
-//                    if (goods.isNotEmpty()) {
-//                        _fashionResponseLiveData.postValue(this)
-//                    }
-//                }
-//            }, {
-//                Log.d("room", "response error, message : ${it.message}")
-//            }))
+    fun getFashionPage(page: Int) {
+        viewModelScope.launch {
+            withContext(Main) {
+                _fashionGoodLiveData.value =  model.getGoodData(page).goods
+            }
+        }
     }
 }

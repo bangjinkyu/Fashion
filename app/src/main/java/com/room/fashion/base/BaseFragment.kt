@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-
+import org.koin.android.ext.android.inject
 abstract class BaseFragment <B : ViewDataBinding, V : ViewModel>  : Fragment() {
 
     lateinit var binding: B
