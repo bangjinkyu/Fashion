@@ -14,12 +14,13 @@ import com.room.fashion.util.OnItemClickListener
 
 class FashionListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-     var mListener : OnItemClickListener? = null
+    var mListener : OnItemClickListener? = null
+
     fun setOnItemClickListener(listener : OnItemClickListener) {
         this.mListener = listener
     }
 
-    var imageItemList: List<FashionResponse.FashionGood>? = null
+    var imageItemList = mutableListOf<FashionResponse.FashionGood>()
 
     override fun getItemCount() = imageItemList?.size ?: 0
 
@@ -78,8 +79,8 @@ class FashionListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    fun submitList(list: List<FashionResponse.FashionGood>?) {
-        imageItemList = list
+    fun submitList(list: List<FashionResponse.FashionGood>) {
+        imageItemList.addAll(list)
         notifyDataSetChanged()
     }
 }

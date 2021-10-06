@@ -1,5 +1,6 @@
 package com.room.fashion.home
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,6 +13,8 @@ import com.room.fashion.databinding.FragmentHomeBinding
 import com.room.fashion.model.FashionResponse
 import com.room.fashion.util.OnItemClickListener
 import com.room.fashion.MainViewModel
+import com.room.fashion.model.FashionGoods
+import com.room.fashion.util.PagingRecyclerViewCallback
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import org.koin.android.ext.android.inject
@@ -29,6 +32,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     private val mainViewModel: MainViewModel by sharedViewModel()
 
+    private val pagingRecyclerViewCallback by lazy {
+        PagingRecyclerViewCallback{ pageIndex ->
+            binding.progressBar.visibility = View.VISIBLE
+            viewModel.getFashionPage(pageIndex * 10)
+        }
+    }
+
     override val layoutId: Int
         get() = R.layout.fragment_home
 
@@ -38,6 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
             adapter = fashionListAdapter
             layoutManager = GridLayoutManager(context, 2)
             setHasFixedSize(true)
+            addOnScrollListener(pagingRecyclerViewCallback)
         }
 
         binding.viewPager2.apply {
@@ -70,6 +81,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         viewModel.currentPosition.observe(viewLifecycleOwner,  {
             binding.viewPager2.currentItem = it
         })
+
+        viewModel.resultLiveData.observe(viewLifecycleOwner, {
+            displayResult(it)
+        })
+    }
+
+    private fun displayResult(result: Result<FashionGoods>) {
+        when(result) {
+            is Result.Success -> {
+                Log.d("room", "Result.Success")
+                binding.progressBar.visibility = View.GONE
+            }
+            is Result.Error -> {
+
+            }
+        }
     }
 
     override fun initAfterBinding() {

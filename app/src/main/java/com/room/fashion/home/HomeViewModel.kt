@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.room.fashion.base.BaseViewModel
 import com.room.fashion.model.DataModel
+import com.room.fashion.model.FashionGoods
 import com.room.fashion.model.FashionResponse
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
@@ -17,6 +18,8 @@ class HomeViewModel(private val model: DataModel) : BaseViewModel() {
     private val _bannerItemList: MutableLiveData<List<FashionResponse.FashionBanner>> = MutableLiveData()
     private val _currentPosition: MutableLiveData<Int> = MutableLiveData()
 
+    private val _resultLiveData = MutableLiveData<Result<FashionGoods>>()
+
     val bannerItemList: LiveData<List<FashionResponse.FashionBanner>>
         get() = _bannerItemList
 
@@ -25,6 +28,9 @@ class HomeViewModel(private val model: DataModel) : BaseViewModel() {
 
     val fashionGoodLiveData: LiveData<List<FashionResponse.FashionGood>>
         get() = _fashionGoodLiveData
+
+    val resultLiveData :  LiveData<Result<FashionGoods>>
+        get() = _resultLiveData
 
     init{
         _currentPosition.value = 0
@@ -56,7 +62,14 @@ class HomeViewModel(private val model: DataModel) : BaseViewModel() {
         viewModelScope.launch {
             withContext(Main) {
                 _fashionGoodLiveData.value =  model.getGoodData(page).goods
+                val result2 = model.getGoodData(page)
+                _resultLiveData.value = Result.Success(result2)
             }
         }
     }
+}
+
+sealed class Result<out R> {
+    data class Success<out T>(val data: T) : Result<T>()
+    data class Error(val exception: Exception) : Result<Nothing>()
 }

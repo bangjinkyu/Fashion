@@ -27,6 +27,7 @@ class FavoriteFragment() : BaseFragment<FragmentFavoriteBinding, FavoriteViewMod
 
     override fun initStartView() {
         binding.favoriteRecycler.run {
+            fashionRecyclerViewAdapter.imageItemList.clear()
             adapter = fashionRecyclerViewAdapter
             layoutManager = GridLayoutManager(context, 2)
             setHasFixedSize(true)
