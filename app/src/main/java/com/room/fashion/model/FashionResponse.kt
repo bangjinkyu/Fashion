@@ -1,6 +1,7 @@
 package com.room.fashion.model
 
 import com.google.gson.annotations.SerializedName
+import com.room.fashion.util.Status
 
 data class FashionResponse(
     @SerializedName("banners")
@@ -22,4 +23,16 @@ data class FashionResponse(
         @SerializedName("sell_count") val sellCount: Int, // 구매중 갯수
         var isFavorite: Boolean = false //좋아요
     )
+
+    data class FashionStatus(
+        val status: Status,
+        val error: String?
+    )
+    companion object {
+        fun loading(): FashionStatus = FashionStatus(Status.LOADING ,null)
+
+        fun success(goods: FashionGoods): FashionStatus = FashionStatus(Status.SUCCESS, null)
+
+        fun error(error: String): FashionStatus = FashionStatus(Status.ERROR, null)
+    }
 }

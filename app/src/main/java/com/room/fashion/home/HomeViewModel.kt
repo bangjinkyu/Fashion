@@ -7,6 +7,8 @@ import com.room.fashion.base.BaseViewModel
 import com.room.fashion.model.DataModel
 import com.room.fashion.model.FashionGoods
 import com.room.fashion.model.FashionResponse
+import com.room.fashion.model.FashionResponse.Companion.loading
+import com.room.fashion.util.ApiResult
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -18,7 +20,7 @@ class HomeViewModel(private val model: DataModel) : BaseViewModel() {
     private val _bannerItemList: MutableLiveData<List<FashionResponse.FashionBanner>> = MutableLiveData()
     private val _currentPosition: MutableLiveData<Int> = MutableLiveData()
 
-    private val _resultLiveData = MutableLiveData<Result<FashionGoods>>()
+    private val _resultLiveData = MutableLiveData<FashionResponse.FashionStatus>()
 
     val bannerItemList: LiveData<List<FashionResponse.FashionBanner>>
         get() = _bannerItemList
@@ -29,7 +31,7 @@ class HomeViewModel(private val model: DataModel) : BaseViewModel() {
     val fashionGoodLiveData: LiveData<List<FashionResponse.FashionGood>>
         get() = _fashionGoodLiveData
 
-    val resultLiveData :  LiveData<Result<FashionGoods>>
+    val resultLiveData :  LiveData<FashionResponse.FashionStatus>
         get() = _resultLiveData
 
     init{
@@ -61,15 +63,18 @@ class HomeViewModel(private val model: DataModel) : BaseViewModel() {
     fun getFashionPage(page: Int) {
         viewModelScope.launch {
             withContext(Main) {
-                _fashionGoodLiveData.value =  model.getGoodData(page).goods
-                val result2 = model.getGoodData(page)
-                _resultLiveData.value = Result.Success(result2)
+                _resultLiveData.value = loading()
+                val result = model.getGoodData(page)
+                when (result){
+                    is ApiResult.Success -> {
+                        _fashionGoodLiveData.value = result.data.goods
+                        _resultLiveData.value = FashionResponse.success(result.data)
+                    }
+                    is ApiResult.Error -> {
+                        _resultLiveData.value = FashionResponse.error(result.error)
+                    }
+                }
             }
         }
     }
-}
-
-sealed class Result<out R> {
-    data class Success<out T>(val data: T) : Result<T>()
-    data class Error(val exception: Exception) : Result<Nothing>()
 }
