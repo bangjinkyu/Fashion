@@ -1,4 +1,4 @@
-package com.room.fashion.fashion
+package com.room.fashion.view.fashion
 
 import com.room.fashion.base.BaseViewModel
 

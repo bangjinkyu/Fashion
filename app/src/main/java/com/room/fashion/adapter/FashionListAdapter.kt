@@ -49,32 +49,14 @@ class FashionListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                  mListener?.onItemClick(this, binding.favorView, adapterPosition)
              }
          }
+
         fun onBind(item: FashionResponse.FashionGood) {
-            binding.tvTitle.text = item.name
+            binding.mydata = item
+            binding.isSale = false
             val dis = 1 - (item.price.toFloat() / item.actualPrice.toFloat())
             if (dis != 0.0f ) {
                 binding.tvDiscount.text = dis.formatPercent()
-                binding.tvDiscount.visibility = View.VISIBLE
-            }
-
-            binding.tvPrice.text = item.price.formatComma()
-            binding.tvCount.text = item.sellCount.toString()
-            if (item.isNew) {
-                binding.imageNew.visibility = View.VISIBLE
-            }
-
-            binding.favorView.background = if (item.isFavorite) {
-                binding.root.context.getDrawable(R.drawable.favorite_selected)
-            } else {
-                binding.root.context.getDrawable(R.drawable.favorite_normal)
-            }
-
-
-            itemView.run {
-                Glide.with(context)
-                    .load(item.image)
-                    .placeholder(R.drawable.ic_launcher_foreground)
-                    .into(binding.itemImageView)
+                binding.isSale = true
             }
         }
     }

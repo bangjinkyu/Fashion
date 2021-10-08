@@ -1,4 +1,4 @@
-package com.room.fashion.home
+package com.room.fashion.view.home
 
 import android.util.Log
 import android.view.View
@@ -13,7 +13,9 @@ import com.room.fashion.databinding.FragmentHomeBinding
 import com.room.fashion.model.FashionResponse
 import com.room.fashion.util.OnItemClickListener
 import com.room.fashion.MainViewModel
+import com.room.fashion.extensions.getFromDrawable
 import com.room.fashion.model.FashionGoods
+import com.room.fashion.util.ApiResult
 import com.room.fashion.util.PagingRecyclerViewCallback
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -56,7 +58,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
-                    binding.tvPageNumber.text = "${position + 1}"
+                    binding.position = position
                     viewModel.setCurrentPosition(position)
                 }
             })
@@ -87,14 +89,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         })
     }
 
-    private fun displayResult(result: Result<FashionGoods>) {
+    private fun displayResult(result: ApiResult<FashionGoods>) {
         when(result) {
-            is Result.Success -> {
-                Log.d("room", "Result.Success")
-                binding.progressBar.visibility = View.GONE
+            is ApiResult.Loading -> {
+                Log.d("room", "Result.Loading")
             }
-            is Result.Error -> {
-
+            is ApiResult.Success -> {
+                Log.d("room", "Result.Success")
+                binding.isProgress = true
+            }
+            else  -> {
+                binding.isProgress = false
             }
         }
     }
@@ -110,14 +115,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                     view: View,
                     position: Int
                 ) {
-                    mainViewModel.getShareLiveData.observe(viewLifecycleOwner, {
+                    mainViewModel.shareLiveData.observe(viewLifecycleOwner, {
                         it.get(position).let {
                             if (!it.isFavorite) {
                                 it.isFavorite = true
-                                view.background = context?.getDrawable(R.drawable.favorite_selected)
+                                view.background = requireContext().getFromDrawable(R.drawable.favorite_selected)
                             } else {
                                 it.isFavorite = false
-                                view.background = context?.getDrawable(R.drawable.favorite_normal)
+                                view.background = requireContext().getFromDrawable(R.drawable.favorite_normal)
                             }
                         }
                     })

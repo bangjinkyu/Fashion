@@ -2,6 +2,22 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="disCount"
+            type="String"/>
+
+        <variable
+            name="isSale"
+            type="Boolean"/>
+
+        <variable
+            name="mydata"
+            type="com.room.fashion.model.FashionResponse.FashionGood" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,7 +30,8 @@
             android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:imageUrl="@{mydata.image}"/>
 
         <ImageButton
             android:id="@+id/favorView"
@@ -23,14 +40,16 @@
             android:layout_centerVertical="true"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="@id/item_image_view"
-            android:background="@drawable/favorite_normal" />
+            android:background="@drawable/favorite_normal"
+            app:favoImage="@{mydata.isFavorite}"/>
+
         <TextView
             android:id="@+id/tv_discount"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:textSize="13dp"
-            android:text="할인"
-            android:visibility="gone"
+            android:text="@{disCount}"
+            android:visibility="@{isSale ? View.VISIBLE : View.GONE }"
             android:layout_marginEnd="10dp"
             android:textColor="@android:color/holo_red_light"
             app:layout_constraintTop_toBottomOf="@+id/item_image_view"
@@ -40,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:textSize="13dp"
-            android:text="실가격"
+            android:text="@{@string/price_format(mydata.price)}"
             app:layout_constraintTop_toBottomOf="@+id/item_image_view"
             app:layout_constraintStart_toEndOf="@id/tv_discount" />
 
@@ -49,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:textSize="13dp"
-            android:text="타이틀"
+            android:text="@{mydata.name}"
             app:layout_constraintTop_toBottomOf="@+id/tv_price"
             app:layout_constraintStart_toStartOf="@id/item_image_view" />
         <ImageView
@@ -57,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:src="@drawable/new_icon"
-            android:visibility="gone"
+            android:visibility="@{mydata.isNew ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
             app:layout_constraintStart_toStartOf="@id/item_image_view"
             tool:visibility="visible"/>
@@ -67,16 +86,8 @@
             android:layout_height="25dp"
             android:layout_marginEnd="10dp"
             android:textSize="13dp"
-            android:text="1개"
+            android:text="@{@string/getBuy(mydata.sellCount)}"
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
             app:layout_constraintStart_toEndOf="@id/image_new" />
-        <TextView
-            android:id="@+id/tv_Sell"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:textSize="13dp"
-            android:text="구매중"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title"
-            app:layout_constraintStart_toEndOf="@id/tv_count" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

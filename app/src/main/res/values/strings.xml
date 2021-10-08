@@ -2,4 +2,6 @@
     <string name="app_name">fashion</string>
     <string name="home_fragment_label">home Fragment</string>
     <string name="favorite_fragment_label">favorite Fragment</string>
+    <string name="getBuy">%s 구매중</string>
+    <string name="price_format">%,2d</string>
 </resources>

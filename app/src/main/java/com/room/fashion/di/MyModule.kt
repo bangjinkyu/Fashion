@@ -6,8 +6,8 @@ import com.room.fashion.adapter.ViewPagerAdapter
 import com.room.fashion.model.DataModel
 import com.room.fashion.model.DataModelImpl
 import com.room.fashion.network.FashionService
-import com.room.fashion.home.HomeViewModel
-import com.room.fashion.favorite.FavoriteViewModel
+import com.room.fashion.view.home.HomeViewModel
+import com.room.fashion.view.favorite.FavoriteViewModel
 import com.room.fashion.MainViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

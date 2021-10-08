@@ -1,4 +1,4 @@
-package com.room.fashion.favorite
+package com.room.fashion.view.favorite
 
 import android.view.View
 import androidx.lifecycle.Observer

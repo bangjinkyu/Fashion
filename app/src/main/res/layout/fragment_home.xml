@@ -2,6 +2,24 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="position"
+            type="Integer">
+        </variable>
+
+        <variable
+            name="isProgress"
+            type="Boolean"/>
+
+        <variable
+            name="viewModel"
+            type="com.room.fashion.MainViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -117,7 +135,8 @@
                 style="?android:attr/progressBarStyle"
                 android:background="@android:color/transparent"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"/>
+                android:layout_height="50dp"
+                android:visibility="@{isProgress ? View.VISIBLE : View.GONE }"/>
         </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
