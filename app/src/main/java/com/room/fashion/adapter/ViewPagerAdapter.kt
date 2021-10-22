@@ -7,8 +7,9 @@ import com.bumptech.glide.Glide
 import com.room.fashion.R
 import com.room.fashion.databinding.ItemLayoutBannerBinding
 import com.room.fashion.model.FashionResponse
+import javax.inject.Inject
 
-class ViewPagerAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ViewPagerAdapter@Inject constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var bannerItemList: List<FashionResponse.FashionBanner>? = null
 

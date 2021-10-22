@@ -40,7 +40,6 @@ abstract class BaseActivity <T : ViewDataBinding, R : BaseViewModel> : AppCompat
      * 그 외에 설정할 것이 있으면 이곳에서 설정.
      * 클릭 리스너도 이곳에서 설정.
      */
-    abstract fun initAfterBinding()
 
     abstract fun initNavigationBar()
 
@@ -57,7 +56,6 @@ abstract class BaseActivity <T : ViewDataBinding, R : BaseViewModel> : AppCompat
         snackbarObserving()
         initStartView()
         initDataBinding()
-        initAfterBinding()
         initNavigationBar()
     }
 

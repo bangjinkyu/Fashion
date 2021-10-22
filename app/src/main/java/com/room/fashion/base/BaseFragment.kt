@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import org.koin.android.ext.android.inject
+
 abstract class BaseFragment <B : ViewDataBinding, V : ViewModel>  : Fragment() {
 
     lateinit var binding: B
@@ -22,7 +22,7 @@ abstract class BaseFragment <B : ViewDataBinding, V : ViewModel>  : Fragment() {
 
     abstract fun initDataBinding()
 
-    abstract fun initAfterBinding()
+    abstract fun onEvent()
 
     abstract fun subscribeObservers()
 
@@ -41,7 +41,7 @@ abstract class BaseFragment <B : ViewDataBinding, V : ViewModel>  : Fragment() {
 
         initStartView()
         initDataBinding()
-        initAfterBinding()
+        onEvent()
         subscribeObservers()
     }
 

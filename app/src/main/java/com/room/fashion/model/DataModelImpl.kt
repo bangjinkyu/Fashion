@@ -2,8 +2,13 @@ package com.room.fashion.model
 
 import com.room.fashion.network.FashionService
 import com.room.fashion.util.ApiResult
+import javax.inject.Inject
 
-class  DataModelImpl(private val service: FashionService): DataModel {
+class  DataModelImpl
+@Inject
+constructor(
+private val service: FashionService
+): DataModel {
 
     override suspend fun getData(): FashionResponse {
         return service.getFashion()

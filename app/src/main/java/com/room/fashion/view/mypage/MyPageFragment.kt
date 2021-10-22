@@ -1,16 +1,18 @@
-package com.room.fashion.view.fashion
+package com.room.fashion.view.mypage
 
+import androidx.fragment.app.viewModels
 import com.room.fashion.base.BaseFragment
 import com.room.fashion.R
 import com.room.fashion.databinding.FragmentFashionBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class FashionFragment: BaseFragment<FragmentFashionBinding, FashionViewModel>() {
+@AndroidEntryPoint
+class MyPageFragment: BaseFragment<FragmentFashionBinding, MyPageViewModel>() {
 
     override val layoutId: Int
         get() = R.layout.fragment_fashion
 
-    override val viewModel: FashionViewModel by viewModel()
+    override val viewModel: MyPageViewModel by viewModels()
 
     override fun initStartView() {
 
@@ -22,6 +24,6 @@ class FashionFragment: BaseFragment<FragmentFashionBinding, FashionViewModel>() 
     override fun subscribeObservers() {
     }
 
-    override fun initAfterBinding() {
+    override fun onEvent() {
     }
 }

@@ -1,14 +1,16 @@
 package com.room.fashion
 
+import androidx.activity.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.room.fashion.base.BaseActivity
 import com.room.fashion.databinding.ActivityMainBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
+@AndroidEntryPoint
+class MainActivity : BaseActivity<ActivityMainBinding, SharedViewModel>() {
 
-    override val viewModel: MainViewModel by viewModel()
+    override val viewModel: SharedViewModel by viewModels()
 
     override val layoutId: Int
     get() = R.layout.activity_main
@@ -21,9 +23,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     }
 
-    override fun initAfterBinding() {
-
-    }
 
     override fun initNavigationBar() {
         val navController = findNavController(R.id.main_nav_host)

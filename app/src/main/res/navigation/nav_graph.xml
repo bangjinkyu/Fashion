@@ -12,16 +12,30 @@
     </fragment>
 
     <fragment
-        android:id="@+id/favoriteFragment"
-        android:name="com.room.fashion.view.favorite.FavoriteFragment"
-        android:label="@string/favorite_fragment_label"
-        tools:layout="@layout/fragment_favorite">
+        android:id="@+id/searchFragment"
+        android:name="kr.lazynight.android.view.search.SearchFragment"
+        android:label="@string/search_fragment_label"
+        tools:layout="@layout/fragment_search">
     </fragment>
 
     <fragment
-        android:id="@+id/fashionFragment"
-        android:name="com.room.fashion.view.fashion.FashionFragment"
+        android:id="@+id/mypageFragment"
+        android:name="kr.lazynight.android.view.mypage.MyPageFragment"
         android:label="@string/favorite_fragment_label"
-        tools:layout="@layout/fragment_fashion">
+        tools:layout="@layout/fragment_mypage">
+    </fragment>
+
+    <fragment
+        android:id="@+id/recnetFragment"
+        android:name="kr.lazynight.android.view.recent.RecentFragment"
+        android:label="@string/recent_fragment_label"
+        tools:layout="@layout/fragment_recent">
+    </fragment>
+
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="kr.lazynight.android.view.favorite.FavoriteFragment"
+        android:label="@string/favorite_fragment_label"
+        tools:layout="@layout/fragment_favorite">
     </fragment>
 </navigation>

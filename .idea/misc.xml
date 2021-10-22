@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/layout/fragment_fashion.xml" value="0.1234375" />
         <entry key="app/src/main/res/layout/fragment_favorite.xml" value="0.1234375" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1234375" />
+        <entry key="app/src/main/res/layout/fragment_mypage.xml" value="0.3307291666666667" />
         <entry key="app/src/main/res/layout/item_fashion_adapter.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_layout_banner.xml" value="0.1234375" />
         <entry key="app/src/main/res/menu/menu_tab.xml" value="0.1" />

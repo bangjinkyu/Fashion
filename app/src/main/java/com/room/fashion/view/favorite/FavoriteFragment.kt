@@ -1,26 +1,32 @@
 package com.room.fashion.view.favorite
 
 import android.view.View
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.room.fashion.MainViewModel
+import com.room.fashion.SharedViewModel
 import com.room.fashion.base.BaseFragment
 import com.room.fashion.R
 import com.room.fashion.adapter.FashionListAdapter
 import com.room.fashion.databinding.FragmentFavoriteBinding
 import com.room.fashion.model.FashionResponse
 import com.room.fashion.util.OnItemClickListener
-import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.room.fashion.view.home.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FavoriteFragment() : BaseFragment<FragmentFavoriteBinding, FavoriteViewModel>() {
 
-    private val fashionRecyclerViewAdapter: FashionListAdapter by inject()
+    @Inject
+    lateinit var fashionRecyclerViewAdapter: FashionListAdapter
 
-     private val mainViewModel: MainViewModel by sharedViewModel()
+     private val mainViewModel: SharedViewModel by activityViewModels()
 
-    override val viewModel: FavoriteViewModel by viewModel()
+    private val homeViewModel: HomeViewModel by activityViewModels()
+
+    override val viewModel: FavoriteViewModel by viewModels()
 
     override val layoutId: Int
         get() = R.layout.fragment_favorite
@@ -41,25 +47,11 @@ class FavoriteFragment() : BaseFragment<FragmentFavoriteBinding, FavoriteViewMod
     }
 
     override fun initDataBinding() {
-        val chartData = mainViewModel.getShareLiveData.value?.filter { it.isFavorite }
-        viewModel.getFashionFavorite(chartData!!)
+        val chartData = mainViewModel.shareLiveData.filter { it.isFavorite }
+        viewModel.getFashionFavorite(chartData)
     }
 
-    override fun initAfterBinding() {
-        fashionRecyclerViewAdapter.setOnItemClickListener(
-            object : OnItemClickListener {
-                override fun onItemClick(
-                    holder: FashionListAdapter.ImageHolder,
-                    view: View,
-                    position: Int
-                ) {
-                   // TODO("Not yet implemented")
-                }
+    override fun onEvent() {
 
-                override fun onBannerItemClicked(bannerItem: FashionResponse.FashionBanner) {
-                    //TODO("Not yet implemented")
-                }
-            }
-        )
     }
 }

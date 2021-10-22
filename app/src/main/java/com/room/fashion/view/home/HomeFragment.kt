@@ -2,7 +2,8 @@ package com.room.fashion.view.home
 
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.room.fashion.base.BaseFragment
@@ -10,29 +11,32 @@ import com.room.fashion.R
 import com.room.fashion.adapter.FashionListAdapter
 import com.room.fashion.adapter.ViewPagerAdapter
 import com.room.fashion.databinding.FragmentHomeBinding
-import com.room.fashion.model.FashionResponse
-import com.room.fashion.util.OnItemClickListener
-import com.room.fashion.MainViewModel
+import com.room.fashion.SharedViewModel
 import com.room.fashion.extensions.getFromDrawable
 import com.room.fashion.model.FashionGoods
 import com.room.fashion.util.ApiResult
 import com.room.fashion.util.PagingRecyclerViewCallback
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
+import javax.inject.Inject
+import kotlin.concurrent.timer
 
-
+@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
-    private  val viewPagerAdapter: ViewPagerAdapter by inject()
+    @Inject
+    lateinit  var viewPagerAdapter: ViewPagerAdapter
 
-    private val fashionListAdapter: FashionListAdapter by inject()
+    @Inject
+    lateinit var fashionListAdapter: FashionListAdapter
 
-    override val viewModel: HomeViewModel by viewModel()
+    override val viewModel: HomeViewModel by viewModels()
 
-    private val mainViewModel: MainViewModel by sharedViewModel()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
+    private var time = 0
+
+    private var timerTask : Timer? = null
 
     private val pagingRecyclerViewCallback by lazy {
         PagingRecyclerViewCallback{ pageIndex ->
@@ -63,6 +67,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                 }
             })
         }
+
+        fashionListAdapter.setOnItemClickListener(onSelected =  { view, position->
+            sharedViewModel.shareLiveData.get(position).let {
+                if (!it.isFavorite) {
+                    it.isFavorite = true
+                    view.background = requireContext().getFromDrawable(R.drawable.favorite_selected)
+                } else {
+                    it.isFavorite = false
+                    view.background = requireContext().getFromDrawable(R.drawable.favorite_normal)
+                }
+            }
+        })
     }
 
     override fun initDataBinding() {
@@ -74,7 +90,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     override fun subscribeObservers() {
         viewModel.fashionGoodLiveData.observe(viewLifecycleOwner, {
             fashionListAdapter.submitList(it)
-            mainViewModel.setLiveData(it)
+            sharedViewModel.setLiveData(it)
         })
 
         viewModel.bannerItemList.observe(viewLifecycleOwner,  {
@@ -104,38 +120,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         }
     }
 
-    override fun initAfterBinding() {
-        fashionListAdapter.setOnItemClickListener(
-            object : OnItemClickListener {
-                override fun onBannerItemClicked(bannerItem: FashionResponse.FashionBanner) {
-                    TODO("Not yet implemented")
-                }
-                override fun onItemClick(
-                    holder: FashionListAdapter.ImageHolder,
-                    view: View,
-                    position: Int
-                ) {
-                    mainViewModel.shareLiveData.observe(viewLifecycleOwner, {
-                        it.get(position).let {
-                            if (!it.isFavorite) {
-                                it.isFavorite = true
-                                view.background = requireContext().getFromDrawable(R.drawable.favorite_selected)
-                            } else {
-                                it.isFavorite = false
-                                view.background = requireContext().getFromDrawable(R.drawable.favorite_normal)
-                            }
-                        }
-                    })
-                }
-            }
-        )
+    override fun onEvent() {
+        startBanner()
+    }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-            while (viewLifecycleOwner.lifecycleScope.isActive) {
-                delay(2000)
-                viewModel.getCurrentPosition()?.let {
-                    viewModel.setCurrentPosition(it.plus(1) % 3)
-                }
+    private fun startBanner() {
+        timerTask = timer(period = 2000) {
+            viewModel.getCurrentPosition()?.let {
+                viewModel.setCurrentPosition(it.plus(1) % 3)
             }
         }
     }

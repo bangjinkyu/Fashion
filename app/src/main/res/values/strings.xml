@@ -2,6 +2,14 @@
     <string name="app_name">fashion</string>
     <string name="home_fragment_label">home Fragment</string>
     <string name="favorite_fragment_label">favorite Fragment</string>
+    <string name="search_fragment_label">search Fragment</string>
+    <string name="recent_fragment_label">recent Fragment</string>
+    <string name="mypage_fragment_label">mypage Fragment</string>
+    <string name="search_label">search</string>
+    <string name="home_label">home</string>
+    <string name="favorite_label">favorite</string>
+    <string name="recent_label">recent</string>
+    <string name="mypage_label">mypage</string>
     <string name="getBuy">%s 구매중</string>
     <string name="price_format">%,2d</string>
 </resources>

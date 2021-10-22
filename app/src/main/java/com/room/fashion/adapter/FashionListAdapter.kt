@@ -11,13 +11,15 @@ import com.room.fashion.extensions.formatComma
 import com.room.fashion.extensions.formatPercent
 import com.room.fashion.model.FashionResponse
 import com.room.fashion.util.OnItemClickListener
+import javax.inject.Inject
 
-class FashionListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FashionListAdapter
+@Inject constructor(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var mListener : OnItemClickListener? = null
+    private var onSelected:((View, Int) -> Unit)? = null
 
-    fun setOnItemClickListener(listener : OnItemClickListener) {
-        this.mListener = listener
+    fun setOnItemClickListener(onSelected : ((View, Int) -> Unit)) {
+        this.onSelected = onSelected
     }
 
     var imageItemList = mutableListOf<FashionResponse.FashionGood>()
@@ -46,7 +48,7 @@ class FashionListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     ) {
          init {
              itemView.setOnClickListener {
-                 mListener?.onItemClick(this, binding.favorView, adapterPosition)
+                 onSelected?.invoke(binding.favorView, adapterPosition)
              }
          }
 

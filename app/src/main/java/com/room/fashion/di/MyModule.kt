@@ -6,57 +6,60 @@ import com.room.fashion.adapter.ViewPagerAdapter
 import com.room.fashion.model.DataModel
 import com.room.fashion.model.DataModelImpl
 import com.room.fashion.network.FashionService
-import com.room.fashion.view.home.HomeViewModel
-import com.room.fashion.view.favorite.FavoriteViewModel
-import com.room.fashion.MainViewModel
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
-var retrofitPart = module {
-    single<FashionService> {
-        Retrofit.Builder()
+@Module
+@InstallIn(SingletonComponent::class)
+object MyModule {
+    @Provides
+    @Singleton
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
             .baseUrl("http://d2bab9i9pr8lds.cloudfront.net/")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
-            .client(OkHttpClient.Builder().apply {
-                addInterceptor(getHttpLoggingInterceptor())
-            }.build())
+            .client(okHttpClient)
             .build()
-            .create(FashionService::class.java)
-    }
-}
-
-private fun getHttpLoggingInterceptor() : HttpLoggingInterceptor {
-    val httpLoggingInterceptor = HttpLoggingInterceptor()
-    httpLoggingInterceptor.level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
-    return httpLoggingInterceptor
-}
-
-var adapterPart = module {
-    single {
-        FashionListAdapter()
     }
 
-    single {
-        ViewPagerAdapter()
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder().apply {
+            retryOnConnectionFailure(true)
+            addInterceptor(HttpLoggingInterceptor().apply {
+                level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+            })
+        }.build()
     }
-}
 
-var modelPart = module {
-    factory<DataModel> {
-        DataModelImpl(get())
+    @Provides
+    @Singleton
+    fun provideService(retrofit: Retrofit) : FashionService {
+        return retrofit.create(FashionService::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun provideHomeRepository(fashionService: FashionService): DataModel {
+        return DataModelImpl(fashionService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAdapter(): FashionListAdapter = FashionListAdapter()
+
+    @Provides
+    @Singleton
+    fun provideViewPagerAdapter(): ViewPagerAdapter = ViewPagerAdapter()
 }
 
-var viewModelPart = module {
-    viewModel { MainViewModel() }
-    viewModel { HomeViewModel(get()) }
-    viewModel { FavoriteViewModel() }
-}
-
-var myDiModule = listOf(retrofitPart, adapterPart, modelPart, viewModelPart)
